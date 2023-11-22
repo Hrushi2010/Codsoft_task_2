@@ -1,0 +1,1574 @@
+{% comment %} <!DOCTYPE html>
+{% load static %}
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Calculator</h1>
+    <form action="/calculate/" method="post">
+        {% csrf_token %}
+        <div class="calculator">
+            <input type="text" name="expression" id="expression" readonly>
+            <div class="buttons">
+                <div class="button-row">
+                    <button type="button" onclick="appendToDisplay('7')">7</button>
+                    <button type="button" onclick="appendToDisplay('8')">8</button>
+                    <button type="button" onclick="appendToDisplay('9')">9</button>
+                    <button type="button" onclick="appendToDisplay('/')">/</button>
+                </div>
+                <div class="button-row">
+                    <button type="button" onclick="appendToDisplay('4')">4</button>
+                    <button type="button" onclick="appendToDisplay('5')">5</button>
+                    <button type="button" onclick="appendToDisplay('6')">6</button>
+                    <button type="button" onclick="appendToDisplay('*')">*</button>
+                </div>
+                <div class="button-row">
+                    <button type="button" onclick="appendToDisplay('1')">1</button>
+                    <button type="button" onclick="appendToDisplay('2')">2</button>
+                    <button type="button" onclick="appendToDisplay('3')">3</button>
+                    <button type="button" onclick="appendToDisplay('-')">-</button>
+                </div>
+                <div class="button-row">
+                    <button type="button" onclick="appendToDisplay('0')">0</button>
+                    <button type="button" onclick="appendToDisplay('.')">.</button>
+                    <button type="button" onclick="calculate()">=</button>
+                    <button type="button" onclick="appendToDisplay('+')">+</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <p>Result: {{ result }}</p>
+    
+    <script type="text/javascript" src="{% static 'js/calculator.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+    <style>
+        .calculator {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f3f3f3;
+        }
+        input[type="text"] {
+            width: 100%;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        button {
+            width: 70px;
+            height: 50px;
+            font-size: 20px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="appendToDisplay('7')">7</button>
+        <button onclick="appendToDisplay('8')">8</button>
+        <button onclick="appendToDisplay('9')">9</button>
+        <button onclick="appendToDisplay('/')">/</button>
+        <button onclick="appendToDisplay('4')">4</button>
+        <button onclick="appendToDisplay('5')">5</button>
+        <button onclick="appendToDisplay('6')">6</button>
+        <button onclick="appendToDisplay('*')">*</button>
+        <button onclick="appendToDisplay('1')">1</button>
+        <button onclick="appendToDisplay('2')">2</button>
+        <button onclick="appendToDisplay('3')">3</button>
+        <button onclick="appendToDisplay('-')">-</button>
+        <button onclick="appendToDisplay('0')">0</button>
+        <button onclick="appendToDisplay('.')">.</button>
+        <button onclick="calculate('=')">=</button>
+        <button onclick="appendToDisplay('+')">+</button>
+    </div>
+    <script>
+        function appendToDisplay(value) {
+            document.getElementById("display").value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById("display").value = "";
+        }
+
+        function calculate() {
+            try {
+                document.getElementById("display").value = eval(document.getElementById("display").value);
+            } catch (error) {
+                document.getElementById("display").value = "Error";
+            }
+        }
+    </script>
+</body>
+</html>
+ {% endcomment %}
+
+
+ {% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+    <style>
+        .calculator {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f3f3f3;
+        }
+        input[type="text"] {
+            width: 100%;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+        }
+        button {
+            width: 70px;
+            height: 50px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="button-row">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('/')">/</button>
+        </div>
+        <div class="button-row">
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('*')">*</button>
+        </div>
+        <div class="button-row">
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('-')">-</button>
+        </div>
+        <div class="button-row">
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="calculate('=')">=</button>
+            <button onclick="appendToDisplay('+')">+</button>
+        </div>
+    </div>
+    <script>
+        function appendToDisplay(value) {
+            document.getElementById("display").value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById("display").value = "";
+        }
+
+        function calculate() {
+            try {
+                document.getElementById("display").value = eval(document.getElementById("display").value);
+            } catch (error) {
+                document.getElementById("display").value = "Error";
+            }
+        }
+    </script>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Calculator</title>
+    <style>
+        .calculator {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        button {
+            width: 70px;
+            height: 70px;
+            font-size: 24px;
+            background-color: #0074cc;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #00509e;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="button-row">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('/')">/</button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('*')">*</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('-')">-</button>
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="calculate('=')">=</button>
+            <button onclick="appendToDisplay('+')">+</button>
+        </div>
+    </div>
+    <script>
+        function appendToDisplay(value) {
+            document.getElementById("display").value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById("display").value = "";
+        }
+
+        function calculate() {
+            try {
+                document.getElementById("display").value = eval(document.getElementById("display").value);
+            } catch (error) {
+                document.getElementById("display").value = "Error";
+            }
+        }
+    </script>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Calculator</title>
+    <style>
+        .calculator {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        button {
+            width: 70px;
+            height: 70px;
+            font-size: 24px;
+            background-color: #000;
+            color: #fff;
+            border: 2px solid #444;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="button-row">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('/')">/</button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('*')">*</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('-')">-</button>
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="calculate('=')">=</button>
+            <button onclick="appendToDisplay('+')">+</button>
+        </div>
+    </div>
+    <script>
+        function appendToDisplay(value) {
+            document.getElementById("display").value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById("display").value = "";
+        }
+
+        function calculate() {
+            try {
+                document.getElementById("display").value = eval(document.getElementById("display").value);
+            } catch (error) {
+                document.getElementById("display").value = "Error";
+            }
+        }
+    </script>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Calculator</title>
+    <style>
+        .calculator {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        button {
+            width: 70px;
+            height: 70px;
+            font-size: 24px;
+            background-color: #000;
+            color: #fff;
+            border: 2px solid #444;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="button-row">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('/')">/</button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('*')">*</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('-')">-</button>
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="calculate('=')">=</button>
+            <button onclick="appendToDisplay('+')">+</button>
+        </div>
+    </div>
+    <script>
+        function appendToDisplay(value) {
+            document.getElementById("display").value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById("display").value = "";
+        }
+
+        function calculate() {
+            try {
+                document.getElementById("display").value = eval(document.getElementById("display").value);
+            } catch (error) {
+                document.getElementById("display").value = "Error";
+            }
+        }
+
+        // Add event listeners to capture numpad keypress events
+        document.addEventListener("keydown", function(event) {
+            const key = event.key;
+
+            if (/\d/.test(key) || "+-*/.C=Enter".includes(key)) {
+                if (key === "Enter") {
+                    key = "=";
+                }
+                appendToDisplay(key);
+            }
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+
+
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Calculator</title>
+    <style>
+        .calculator {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        button {
+            width: 70px;
+            height: 70px;
+            font-size: 24px;
+            background-color: #000;
+            color: #fff;
+            border: 2px solid #444;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="button-row">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('/')">/</button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('*')">*</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('-')">-</button>
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="calculate('=')">Enter</button>
+            <button onclick="appendToDisplay('+')">+</button>
+        </div>
+    </div>
+    <script>
+        function appendToDisplay(value) {
+            document.getElementById("display").value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById("display").value = "";
+        }
+
+        function calculate() {
+            try {
+                document.getElementById("display").value = eval(document.getElementById("display").value);
+            } catch (error) {
+                document.getElementById("display").value = "Error";
+            }
+        }
+
+        // Add event listeners to capture keypress events
+        document.addEventListener("keydown", function(event) {
+            const key = event.key;
+
+            if (/\d/.test(key) || "+-*/.C=Enter".includes(key)) {
+                if (key === "Enter") {
+                    key = "=";
+                }
+                appendToDisplay(key);
+            }
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Calculator</title>
+    <style>
+        .calculator {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        button {
+            width: 70px;
+            height: 70px;
+            font-size: 24px;
+            background-color: #000;
+            color: #fff;
+            border: 2px solid #444;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="button-row">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('/')">/</button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('*')">*</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('-')">-</button>
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="calculate('=')">=</button>
+            <button onclick="appendToDisplay('+')">+</button>
+        </div>
+    </div>
+    <script>
+        function appendToDisplay(value) {
+            document.getElementById("display").value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById("display").value = "";
+        }
+
+        function calculate() {
+            try {
+                document.getElementById("display").value = eval(document.getElementById("display").value);
+            } catch (error) {
+                document.getElementById("display").value = "Error";
+            }
+        }
+
+        // Add event listeners to capture keypress events
+        document.addEventListener("keydown", function(event) {
+            const key = event.key;
+
+            if (/\d/.test(key) || "+-*/.C=EnterDelete".includes(key)) {
+                if (key === "Enter") {
+                    key = "=";
+                } else if (key === "Delete") {
+                    key = "C";
+                }
+                appendToDisplay(key);
+            }
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Calculator</title>
+    <style>
+        .calculator {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        button {
+            width: 70px;
+            height: 70px;
+            font-size: 24px;
+            background-color: #000;
+            color: #fff;
+            border: 2px solid #444;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="button-row">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('/')">/</button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('*')">*</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('-')">-</button>
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="calculate('=')">=</button>
+            <button onclick="appendToDisplay('+')">+</button>
+        </div>
+    </div>
+    <script>
+        function appendToDisplay(value) {
+            document.getElementById("display").value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById("display").value = "";
+        }
+
+        function calculate() {
+            try {
+                document.getElementById("display").value = eval(document.getElementById("display").value);
+            } catch (error) {
+                document.getElementById("display").value = "Error";
+            }
+        }
+
+        // Add event listeners to capture keypress events
+        document.addEventListener("keydown", function(event) {
+            const key = event.key;
+
+            if (/[\d.+\-*/=]/.test(key)) {
+                if (key === "Enter") {
+                    key = "=";
+                }
+                appendToDisplay(key);
+            } else if (event.keyCode === 8) {
+                // Handle the Backspace key (keyCode 8) for clearing
+                clearDisplay();
+            }
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Calculator</title>
+    <style>
+        .calculator {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        button {
+            width: 70px;
+            height: 70px;
+            font-size: 24px;
+            background-color: #000;
+            color: #fff;
+            border: 2px solid #444;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="button-row">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('/')">/</button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('*')">*</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('-')">-</button>
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="calculate('=')">=</button>
+            <button onclick="appendToDisplay('+')">+</button>
+        </div>
+    </div>
+    <script>
+        function appendToDisplay(value) {
+            document.getElementById("display").value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById("display").value = "";
+        }
+
+        function calculate() {
+            try {
+                document.getElementById("display").value = eval(document.getElementById("display").value);
+            } catch (error) {
+                document.getElementById("display").value = "Error";
+            }
+        }
+
+        // Add event listeners to capture keypress events
+        document.addEventListener("keydown", function(event) {
+            const key = event.key;
+
+            if (/[\d.+\-*/=]/.test(key)) {
+                if (key === "Enter" || key === "=") {
+                    key = "=";
+                }
+                appendToDisplay(key);
+            } else if (event.key === "Backspace") {
+                // Handle the Backspace key for clearing
+                clearDisplay();
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+// Add event listeners to capture keypress events
+document.addEventListener("keydown", function(event) {
+    const key = event.key;
+
+    if (/[\d.+\-*/=]/.test(key)) {
+        if (key === "Enter" || key === "=") {
+            key = "=";
+            calculate();
+        } else {
+            appendToDisplay(key);
+        }
+    } else if (event.key === "Backspace") {
+        // Handle the Backspace key for clearing
+        clearDisplay();
+    }
+}); {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Calculator</title>
+    <style>
+        .calculator {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        button {
+            width: 70px;
+            height: 70px;
+            font-size: 24px;
+            background-color: #000;
+            color: #fff;
+            border: 2px solid #444;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="button-row">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('/')">/</button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('*')">*</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('-')">-</button>
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="calculate('=')">=</button>
+            <button onclick="appendToDisplay('+')">+</button>
+        </div>
+    </div>
+    <script>
+        function appendToDisplay(value) {
+            document.getElementById("display").value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById("display").value = "";
+        }
+
+        function calculate() {
+            try {
+                document.getElementById("display").value = eval(document.getElementById("display").value);
+            } catch (error) {
+                document.getElementById("display").value = "Error";
+            }
+        }
+
+        // Add event listeners to capture keypress events
+        document.addEventListener("keydown", function(event) {
+            const key = event.key;
+
+            if (/[\d.+\-*/=]/.test(key)) {
+                if (key === "Enter" || key === "=") {
+                    key = "=";
+                    calculate();
+                } else {
+                    appendToDisplay(key);
+                }
+            } else if (event.key === "Backspace") {
+                // Handle the Backspace key for clearing
+                clearDisplay();
+            }
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Calculator</title>
+    <style>
+        /* Your CSS styles here */
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="button-row">
+            <!-- Buttons and their onclick events -->
+        </div>
+    </div>
+    <script>
+        const display = document.getElementById("display");
+
+        function appendToDisplay(value) {
+            display.value += value;
+        }
+
+        function clearDisplay() {
+            display.value = "";
+        }
+
+        function calculate() {
+            try {
+                display.value = eval(display.value);
+            } catch (error) {
+                display.value = "Error";
+            }
+        }
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                calculate();
+            }
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Calculator</title>
+    <style>
+        .calculator {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        button {
+            width: 70px;
+            height: 70px;
+            font-size: 24px;
+            background-color: #000;
+            color: #fff;
+            border: 2px solid #444;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="button-row">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('/')">/</button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('*')">*</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('-')">-</button>
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="calculate()">=</button>
+            <button onclick="appendToDisplay('+')">+</button>
+        </div>
+    </div>
+    <script>
+        const display = document.getElementById("display");
+
+        function appendToDisplay(value) {
+            display.value += value;
+        }
+
+        function clearDisplay() {
+            display.value = "";
+        }
+
+        function calculate() {
+            try {
+                display.value = eval(display.value);
+            } catch (error) {
+                display.value = "Error";
+            }
+        }
+
+        // Add event listeners to capture keypress events
+        document.addEventListener("keydown", function(event) {
+            const key = event.key;
+
+            if (/[\d.+\-*/=]|Enter/.test(key)) {
+                if (key === "Enter" || key === "=") {
+                    calculate();
+                } else {
+                    appendToDisplay(key);
+                }
+            } else if (event.key === "Backspace") {
+                // Handle the Backspace key for clearing
+                clearDisplay();
+            }
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Calculator</title>
+    <style>
+        .calculator {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        button {
+            width: 70px;
+            height: 70px;
+            font-size: 24px;
+            background-color: #000;
+            color: #fff;
+            border: 2px solid #444; /* Border style added */
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="button-row">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('/')">/</button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('*')">*</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('-')">-</button>
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="calculate()">=</button>
+            <button onclick="appendToDisplay('+')">+</button>
+        </div>
+    </div>
+    <script>
+        const display = document.getElementById("display");
+
+        function appendToDisplay(value) {
+            display.value += value;
+        }
+
+        function clearDisplay() {
+            display.value = "";
+        }
+
+        function calculate() {
+            try {
+                display.value = eval(display.value);
+            } catch (error) {
+                display.value = "Error";
+            }
+        }
+
+        // Add event listeners to capture keypress events
+        document.addEventListener("keydown", function(event) {
+            const key = event.key;
+
+            if (/[\d.+\-*/=]|Enter/.test(key)) {
+                if (key === "Enter" || key === "=") {
+                    calculate();
+                } else {
+                    appendToDisplay(key);
+                }
+            } else if (event.key === "Backspace") {
+                // Handle the Backspace key for clearing
+                clearDisplay();
+            }
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Calculator</title>
+    <style>
+        .calculator {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        button {
+            width: 70px;
+            height: 70px;
+            font-size: 24px;
+            color: #fff;
+            border: 2px solid #444;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #333;
+        }
+        /* Updated styles for operation buttons */
+        button[data-operation="true"] {
+            background-color: orange;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="button-row">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('/')" data-operation="true">/</button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('*')" data-operation="true">*</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('-')" data-operation="true">-</button>
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="calculate()" data-operation="true">=</button>
+            <button onclick="appendToDisplay('+')" data-operation="true">+</button>
+        </div>
+    </div>
+    <script>
+        const display = document.getElementById("display");
+
+        function appendToDisplay(value) {
+            display.value += value;
+        }
+
+        function clearDisplay() {
+            display.value = "";
+        }
+
+        function calculate() {
+            try {
+                display.value = eval(display.value);
+            } catch (error) {
+                display.value = "Error";
+            }
+        }
+
+        // Add event listeners to capture keypress events
+        document.addEventListener("keydown", function(event) {
+            const key = event.key;
+
+            if (/[\d.+\-*/=]|Enter/.test(key)) {
+                if (key === "Enter" || key === "=") {
+                    calculate();
+                } else {
+                    appendToDisplay(key);
+                }
+            } else if (event.key === "Backspace") {
+                // Handle the Backspace key for clearing
+                clearDisplay();
+            }
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Calculator</title>
+    <style>
+        .calculator {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        button {
+            width: 70px;
+            height: 70px;
+            font-size: 24px;
+            color: #fff;
+            border: 2px solid #444;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #333;
+        }
+        /* Updated styles for operation buttons */
+        button[data-operation="true"] {
+            background-color: orange;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="button-row">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('/')" data-operation="true">/</button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('*')" data-operation="true">*</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('-')" data-operation="true">-</button>
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="calculate()" data-operation="true">=</button>
+            <button onclick="appendToDisplay('+')" data-operation="true">+</button>
+        </div>
+    </div>
+    <script>
+        const display = document.getElementById("display");
+
+        function appendToDisplay(value) {
+            display.value += value;
+        }
+
+        function clearDisplay() {
+            display.value = "";
+        }
+
+        function calculate() {
+            try {
+                display.value = eval(display.value);
+            } catch (error) {
+                display.value = "Error";
+            }
+        }
+
+        // Add event listeners to capture keypress events
+        document.addEventListener("keydown", function(event) {
+            const key = event.key;
+
+            if (/[\d.+\-*/=]|Enter/.test(key)) {
+                if (key === "Enter" || key === "=") {
+                    calculate();
+                } else {
+                    appendToDisplay(key);
+                }
+            } else if (event.key === "Backspace") {
+                // Handle the Backspace key for clearing
+                clearDisplay();
+            }
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Calculator</title>
+    <style>
+        .calculator {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            font-size: 24px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        button {
+            width: 70px;
+            height: 70px;
+            font-size: 24px;
+            color: #fff;
+            border: 2px solid #444;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #333;
+        }
+        /* Updated styles for operation buttons */
+        button[data-operation="true"] {
+            background-color: orange;
+            color: #fff;
+        }
+        /* Updated styles for non-operation buttons */
+        button:not([data-operation="true"]) {
+            background-color: #000;
+            border-color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="button-row">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('/')" data-operation="true">/</button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('*')" data-operation="true">*</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('-')" data-operation="true">-</button>
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="calculate()" data-operation="true">=</button>
+            <button onclick="appendToDisplay('+')" data-operation="true">+</button>
+        </div>
+    </div>
+    <script>
+        const display = document.getElementById("display");
+
+        function appendToDisplay(value) {
+            display.value += value;
+        }
+
+        function clearDisplay() {
+            display.value = "";
+        }
+
+        function calculate() {
+            try {
+                display.value = eval(display.value);
+            } catch (error) {
+                display.value = "Error";
+            }
+        }
+
+        // Add event listeners to capture keypress events
+        document.addEventListener("keydown", function(event) {
+            const key = event.key;
+
+            if (/[\d.+\-*/=]|Enter/.test(key)) {
+                if (key === "Enter" || key === "=") {
+                    calculate();
+                } else {
+                    appendToDisplay(key);
+                }
+            } else if (event.key === "Backspace") {
+                // Handle the Backspace key for clearing
+                clearDisplay();
+            }
+        });
+    </script>
+</body>
+</html>
